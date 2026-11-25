@@ -1,0 +1,119 @@
+# TASK 2: SAMPLING, OBSERVATION AND SURVEYS
+import pandas as pd
+
+# Step 1: Define research questionnaire
+
+questionnaire = [
+    {
+        "Q.No": 1,
+        "Question": "What is your current year of study?",
+        "Response": "1st / 2nd / 3rd / 4th Year"
+    },
+    {
+        "Q.No": 2,
+        "Question": "What is your discipline group?",
+        "Response": "BCA / BBA / B.Tech / Other"
+    },
+    {
+        "Q.No": 3,
+        "Question": "What is your current CGPA?",
+        "Response": "Below 6 / 6-7 / 7-8 / 8-9 / Above 9"
+    },
+    {
+        "Q.No": 4,
+        "Question": "Do you use AI-based learning tools?",
+        "Response": "Yes / No"
+    },
+    {
+        "Q.No": 5,
+        "Question": "Which AI tools do you use?",
+        "Response": "ChatGPT / Gemini / Copilot / Other"
+    },
+    {
+        "Q.No": 6,
+        "Question": "How many hours per week do you use AI tools?",
+        "Response": "Under 1 / 1-3 / 4-6 / 7-10 / Above 10"
+    },
+    {
+        "Q.No": 7,
+        "Question": "For what purposes do you use AI tools?",
+        "Response": "Learning / Coding / Writing / Exam Preparation"
+    },
+    {
+        "Q.No": 8,
+        "Question": "AI tools help me understand difficult concepts.",
+        "Response": "Likert Scale 1-5"
+    },
+    {
+        "Q.No": 9,
+        "Question": "AI tools improve the quality of my assignments.",
+        "Response": "Likert Scale 1-5"
+    },
+    {
+        "Q.No": 10,
+        "Question": "AI tools improve my examination preparation.",
+        "Response": "Likert Scale 1-5"
+    },
+    {
+        "Q.No": 11,
+        "Question": "I depend on AI instead of thinking independently.",
+        "Response": "Likert Scale 1-5"
+    },
+    {
+        "Q.No": 12,
+        "Question": "Have your academic grades improved after using AI?",
+        "Response": "Much Lower / Lower / Same / Higher / Much Higher"
+    },
+    {
+        "Q.No": 13,
+        "Question": "Are you concerned about incorrect AI-generated answers?",
+        "Response": "Likert Scale 1-5"
+    },
+    {
+        "Q.No": 14,
+        "Question": "What benefits or problems have you noticed?",
+        "Response": "Open-ended"
+    }
+]
+
+questionnaire_df = pd.DataFrame(questionnaire)
+
+print("\nRESEARCH QUESTIONNAIRE")
+print(questionnaire_df.to_string(index=False))
+
+# Export questionnaire
+
+questionnaire_df.to_csv(
+    "Task2_AI_Learning_Questionnaire.csv",
+    index=False
+)
+
+print("\nQuestionnaire saved successfully.")
+
+# Step 2: Create observation checklist template
+
+observation_data = pd.DataFrame({
+    "Student_Code": ["S001", "S002", "S003", "S004", "S005"],
+    "AI_Tool_Used": ["Yes", "No", "Yes", "Yes", "No"],
+    "Time_Spent_Minutes": [30, 0, 45, 25, 0],
+    "Activity": [
+        "Concept Learning",
+        "Reading",
+        "Coding",
+        "Assignment Writing",
+        "Reading"
+    ],
+    "Peer_Interaction": [
+        "Yes", "Yes", "No", "Yes", "No"
+    ]
+})
+
+print("\nOBSERVATION CHECKLIST")
+print(observation_data)
+
+observation_data.to_csv(
+    "Task2_Observation_Checklist.csv",
+    index=False
+)
+
+print("\nObservation checklist saved successfully.")
