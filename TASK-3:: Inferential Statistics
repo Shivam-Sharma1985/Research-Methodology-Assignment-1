@@ -1,0 +1,139 @@
+
+# TASK 3: INFERENTIAL STATISTICS
+# Independent Samples Welch's t-test
+import numpy as np
+import pandas as pd
+from scipy import stats
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+# Step 1: Generate simulated academic performance data
+
+np.random.seed(42)
+
+ai_users = np.random.normal(
+    loc=78,
+    scale=8,
+    size=30
+)
+
+non_ai_users = np.random.normal(
+    loc=70,
+    scale=9,
+    size=30
+)
+
+# Restrict simulated scores to 0-100
+ai_users = np.clip(ai_users, 0, 100)
+non_ai_users = np.clip(non_ai_users, 0, 100)
+
+# Step 2: Create DataFrame
+
+data = pd.DataFrame({
+    "Student_ID": range(1, 61),
+    "AI_Usage": (
+        ["AI User"] * 30 +
+        ["Non-AI User"] * 30
+    ),
+    "Exam_Score": np.concatenate([
+        ai_users,
+        non_ai_users
+    ])
+})
+
+print("\nSIMULATED STUDENT DATA")
+print(data.to_string(index=False))
+
+data.to_csv(
+    "Task3_Inferential_Statistics_Data.csv",
+    index=False
+)
+
+# Step 3: Calculate descriptive statistics
+
+summary = data.groupby("AI_Usage")["Exam_Score"].agg(
+    ["count", "mean", "std"]
+)
+
+print("\nGROUP STATISTICS")
+print(summary)
+
+# Step 4: Formulate hypotheses
+
+print("\nHYPOTHESES")
+
+print("H0: Mean scores of both groups are equal.")
+print("H1: Mean scores of both groups are different.")
+
+# Step 5: Perform Welch's independent samples t-test
+
+t_statistic, p_value = stats.ttest_ind(
+    ai_users,
+    non_ai_users,
+    equal_var=False
+)
+
+print("\nINDEPENDENT SAMPLES T-TEST")
+
+print("T-statistic:", round(t_statistic, 4))
+print("P-value:", round(p_value, 6))
+
+# Step 6: Interpret results
+
+alpha = 0.05
+
+if p_value < alpha:
+    print("\nDecision: Reject the null hypothesis.")
+    print(
+        "There is a statistically significant "
+        "difference between the two groups."
+    )
+else:
+    print("\nDecision: Fail to reject the null hypothesis.")
+    print(
+        "There is insufficient statistical evidence "
+        "of a difference between the two groups."
+    )
+
+# Step 7: Visualise group performance
+
+plt.figure(figsize=(8, 5))
+
+sns.boxplot(
+    data=data,
+    x="AI_Usage",
+    y="Exam_Score"
+)
+
+plt.title("Academic Performance: AI Users vs Non-AI Users")
+plt.xlabel("AI Tool Usage")
+plt.ylabel("Examination Score")
+
+plt.savefig(
+    "Task3_AI_Performance_Comparison.png",
+    dpi=300
+)
+
+plt.show()
+
+# Step 8: Display group mean comparison
+
+plt.figure(figsize=(7, 5))
+
+sns.barplot(
+    data=data,
+    x="AI_Usage",
+    y="Exam_Score",
+    errorbar="sd"
+)
+
+plt.title("Average Examination Scores by AI Usage")
+plt.xlabel("Student Group")
+plt.ylabel("Average Examination Score")
+
+plt.savefig(
+    "Task3_Group_Mean_Comparison.png",
+    dpi=300
+)
+
+plt.show()
