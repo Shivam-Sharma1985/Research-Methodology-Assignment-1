@@ -1,0 +1,133 @@
+#********ASSIGNMENT 1 FOR RESEARCH METHODOLOGY****************
+# TASK 1: GRAPHICAL DATA ANALYSIS AND INTERPRETATION
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+from scipy import stats
+
+# Step 1: Create hypothetical dataset of 30 students
+
+scores = [
+    72, 69, 90, 47, 76, 71, 88, 40, 64, 38, 58, 40, 65,
+    78, 50, 69, 88, 18, 46, 54, 66, 65, 44, 69, 74, 73, 
+    69, 67, 70, 62.
+]
+
+df = pd.DataFrame({
+    'Student_ID': range(1, 31),
+    'Marks': scores
+})
+
+print("\nSTUDENT EXAMINATION DATA")
+print(df)
+
+# Step 2: Create frequency distribution table
+
+bins = [0, 40, 50, 60, 70, 80, 90, 100]
+labels = [
+    '0-40', '41-50', '51-60',
+    '61-70', '71-80', '81-90', '91-100'
+]
+
+df['Grade_Range'] = pd.cut(
+    df['Marks'],
+    bins=bins,
+    labels=labels,
+    include_lowest=True
+)
+
+frequency_table = (
+    df['Grade_Range']
+    .value_counts(sort=False)
+    .reset_index()
+)
+
+frequency_table.columns = ['Marks Range', 'Frequency']
+
+print("\nFREQUENCY DISTRIBUTION TABLE")
+print(frequency_table)
+
+# Step 3: Calculate descriptive statistics
+
+mean = np.mean(scores)
+median = np.median(scores)
+mode = stats.mode(scores, keepdims=False).mode
+variance = np.var(scores, ddof=1)
+std_dev = np.std(scores, ddof=1)
+
+print("\nDESCRIPTIVE STATISTICS")
+print("Mean:", round(mean, 2))
+print("Median:", round(median, 2))
+print("Mode:", mode)
+print("Variance:", round(variance, 2))
+print("Standard Deviation:", round(std_dev, 2))
+
+# Step 4: Histogram
+
+plt.figure(figsize=(8, 5))
+plt.hist(scores, bins=7, edgecolor='black')
+plt.title("Histogram of Student Examination Scores")
+plt.xlabel("Marks")
+plt.ylabel("Number of Students")
+plt.grid(axis='y', alpha=0.3)
+plt.savefig("Task1_Histogram.png", dpi=300)
+plt.show()
+
+# Step 5: Bar Chart
+
+plt.figure(figsize=(9, 5))
+plt.bar(
+    frequency_table['Marks Range'].astype(str),
+    frequency_table['Frequency']
+)
+plt.title("Frequency Distribution of Examination Scores")
+plt.xlabel("Marks Range")
+plt.ylabel("Frequency")
+plt.savefig("Task1_BarChart.png", dpi=300)
+plt.show()
+
+# Step 6: Pie Chart
+
+plt.figure(figsize=(7, 7))
+plt.pie(
+    frequency_table['Frequency'],
+    labels=frequency_table['Marks Range'],
+    autopct='%1.1f%%',
+    startangle=90
+)
+plt.title("Percentage Distribution of Student Scores")
+plt.savefig("Task1_PieChart.png", dpi=300)
+plt.show()
+
+# Step 7: Box Plot
+
+plt.figure(figsize=(8, 4))
+sns.boxplot(x=scores)
+plt.title("Box Plot of Student Examination Scores")
+plt.xlabel("Marks")
+plt.savefig("Task1_BoxPlot.png", dpi=300)
+plt.show()
+
+# Step 8: Interpretation
+
+print("\nGRAPHICAL INTERPRETATION")
+
+print("Average performance:", round(mean, 2))
+
+if mean >= 75:
+    print("Overall performance is good.")
+elif mean >= 60:
+    print("Overall performance is satisfactory.")
+else:
+    print("Overall performance needs improvement.")
+
+if mean > median:
+    print("The distribution may be positively skewed.")
+elif mean < median:
+    print("The distribution may be negatively skewed.")
+else:
+    print("Mean and median are equal.")
+
+print("Standard deviation indicates the spread of marks.")
+print("Check the box plot for possible outliers.")
